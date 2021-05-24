@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+// !!! довести до ума. Чтобы у змеи была возможность есть яблоки до тех пор пока. размер змеи не будет равен размеру окна
+// В текущей реслизации змея ест 5 яблок и становится сново маленькой
+
 public class MyImageIcon2 extends JComponent implements KeyListener, ActionListener {
 
     private static String str = "ЯблоЕд";
@@ -16,10 +19,11 @@ public class MyImageIcon2 extends JComponent implements KeyListener, ActionListe
 
     private static int screenW = 550, screenH = 550;
     private int W = 30, H = 30;
-    private int snakeX = 0, snakeY = 0;
+    private int centerScreenX = (screenW - 30) / 2, centerScreenY = (screenH - 70) / 2;
     private int appleX = (int) (Math.random() * (screenW - 15)), appleY = (int) (Math.random() * (screenH - 40));
+    private int snakeX = centerScreenX, snakeY = centerScreenY, snakeW = W, snakeH = H;
     private int snakeSpeed = 5; // скорость змеи
-   // Rectangle user = new Rectangle(snakeX, snakeY, W, H);
+    private int countApple = 0;
 
     Timer t = new Timer(5, this);
 
@@ -38,13 +42,40 @@ public class MyImageIcon2 extends JComponent implements KeyListener, ActionListe
         Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(grass, 0, 0, null);
         g2d.drawImage(apple, appleX, appleY, W, H, null);
-        g2d.drawImage(snake, snakeX, snakeY, W, H, null);
-        //g2d.fill(user);
-        if (snakeX >= appleX - W / 4 && snakeY >= appleY - H / 4 && snakeX <= appleX + W / 4 && snakeY <= appleY + H / 4) {
+        g2d.drawImage(snake, snakeX, snakeY, snakeW, snakeH, null);
+
+        /* если змея съедает яблоко */
+        // если середина +- 10 = середине +-10
+        // !!! довести до ума. Чтобы у змеи была возможность есть яблоки до тех пор пока. размер змеи не будет равен размеру окна
+        int centerSnakeX = snakeX + snakeW / 2 , centerSnakeY = snakeY + snakeH / 2;
+        int centerAppleX = appleX + W / 2, centerAppleY = appleY + H / 2;
+        if (centerSnakeX >= centerAppleX - W / 4 && centerSnakeY >= centerAppleY - H / 4 && centerSnakeX <= centerAppleX + W / 4 && centerSnakeY <= centerAppleY + H / 4){
             createCoordApple(); // задаем новые координаты яблока
+            upSizeSnake();
+            countApple++;
+        }
+
+        /* если змея съела 5 яблок (временно), пока не доведется до ума предыдущий блок */
+        // нет ничего более постоянного, чем временное
+        if (countApple == 5){
+            createCoordApple();
+            unSizeSnake();
+            snakeX = centerSnakeX;
+            snakeY = centerSnakeY;
+            countApple = 0;
         }
 
         t.start();
+    }
+
+    private void upSizeSnake() {
+        snakeW += 10;
+        snakeH += 10;
+    }
+
+    private void unSizeSnake() {
+        snakeW = W;
+        snakeH = H;
     }
 
     /* Создать новые координаты яблока */
