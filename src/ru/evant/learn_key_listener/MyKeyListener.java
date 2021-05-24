@@ -11,8 +11,8 @@ import java.awt.event.KeyListener; // Слушатель нажатия клав
 
 public class MyKeyListener extends JFrame implements KeyListener {
 
-    private TextField exit = new TextField();
-    private TextField output = new TextField();
+    private final TextField exit = new TextField();
+    private final TextField output = new TextField();
     private String str = "Слушатель клавишь";
 
     public MyKeyListener(){
