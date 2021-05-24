@@ -3,13 +3,13 @@ package ru.evant.learn_canvas;
 import javax.swing.*;
 import java.awt.*;
 
-public class Main extends JComponent {
+public class MyCanvas extends JComponent {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Рисование"); // имя окна
         frame.setSize(500, 500);        // размер окна
         frame.setLocationRelativeTo(null);           // открыть окно по центру экрана
-        frame.getContentPane().add(new Main());      // Добавляем весь код класса Main который относится к фрейму
+        frame.getContentPane().add(new MyCanvas());      // Добавляем весь код класса Main который относится к фрейму
         frame.setVisible(true);                      // Видимость окна
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE); // закрыть окно нажав на крестик в правом верхнем углу
     }
