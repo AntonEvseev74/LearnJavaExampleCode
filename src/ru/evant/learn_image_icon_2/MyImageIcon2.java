@@ -10,15 +10,15 @@ public class MyImageIcon2 extends JComponent implements KeyListener, ActionListe
 
     private static String str = "ЯблоЕд";
 
-    Image grass = new ImageIcon("src/ru/evant/learn_image_icon/grass.jpg").getImage();
-    Image apple = new ImageIcon("src/ru/evant/learn_image_icon/apple.png").getImage();
-    Image snake = new ImageIcon("src/ru/evant/learn_image_icon/apple.png").getImage();
+    Image grass = new ImageIcon("src/ru/evant/learn_image_icon_2/grass2.jpg").getImage();
+    Image apple = new ImageIcon("src/ru/evant/learn_image_icon_2/apple2.png").getImage();
+    Image snake = new ImageIcon("src/ru/evant/learn_image_icon_2/snake2.png").getImage();
 
     private static int screenW = 550, screenH = 550;
     private int W = 30, H = 30;
     private int snakeX = 0, snakeY = 0;
     private int appleX = (int) (Math.random() * (screenW - 15)), appleY = (int) (Math.random() * (screenH - 40));
-    private int snakeSpeed = 5;
+    private int snakeSpeed = 5; // скорость змеи
    // Rectangle user = new Rectangle(snakeX, snakeY, W, H);
 
     Timer t = new Timer(5, this);
@@ -67,64 +67,50 @@ public class MyImageIcon2 extends JComponent implements KeyListener, ActionListe
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
             if (snakeX < screenW - (W + 15)) { // Ограничение, правый край окна
-               // user.setLocation(user.x + snakeSpeed, user.y);
-               // snakeX = user.x;
-
                 snakeX += snakeSpeed;
-
             }
         }
-        /*
+
         if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
             if (snakeY < screenH - (H + 38)) { // Ограничение, нижний край окна
-                user.setLocation(user.x, user.y + snakeSpeed);
-                snakeY = user.y;
+                snakeY += snakeSpeed;
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
             if (snakeX > 0) { // Ограничение, левый край окна
-                user.setLocation(user.x - snakeSpeed, user.y);
-                snakeX = user.x;
+                snakeX -= snakeSpeed;
             }
         }
         if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
             if (snakeY > 0) { // Ограничение, верхний край окна
-                user.setLocation(user.x, user.y - snakeSpeed);
-                snakeY = user.y;
+                snakeY -= snakeSpeed;
             }
         }
 
-
         if ((e.getKeyCode() == KeyEvent.VK_RIGHT && e.getKeyCode() == KeyEvent.VK_DOWN) || (e.getKeyCode() == KeyEvent.VK_D && e.getKeyCode() == KeyEvent.VK_S)) {
             if (snakeX < 400 - (W + 15) && snakeY < 400 - (H + 38)) { // Ограничение, правый край окна
-                user.setLocation(user.x + snakeSpeed, user.y + snakeSpeed);
-                snakeX = user.x;
-                snakeY = user.y;
+                snakeX += snakeSpeed;
+                snakeY += snakeSpeed;
             }
         }
         if ((e.getKeyCode() == KeyEvent.VK_RIGHT && e.getKeyCode() == KeyEvent.VK_UP) || (e.getKeyCode() == KeyEvent.VK_D && e.getKeyCode() == KeyEvent.VK_W)) {
             if (snakeX < screenW - (W + 15) && snakeY > 0) { // Ограничение, правый край окна
-                user.setLocation(user.x + snakeSpeed, user.y - snakeSpeed);
-                snakeX = user.x;
-                snakeY = user.y;
+                snakeX += snakeSpeed;
+                snakeY -= snakeSpeed;
             }
         }
         if ((e.getKeyCode() == KeyEvent.VK_LEFT && e.getKeyCode() == KeyEvent.VK_DOWN) || (e.getKeyCode() == KeyEvent.VK_A && e.getKeyCode() == KeyEvent.VK_S)) {
             if (snakeX > 0 && snakeY < screenH - (H + 38)) { // Ограничение, правый край окна
-                user.setLocation(user.x - snakeSpeed, user.y + snakeSpeed);
-                snakeX = user.x;
-                snakeY = user.y;
+                snakeX -= snakeSpeed;
+                snakeY += snakeSpeed;
             }
         }
         if ((e.getKeyCode() == KeyEvent.VK_LEFT && e.getKeyCode() == KeyEvent.VK_UP) || (e.getKeyCode() == KeyEvent.VK_A && e.getKeyCode() == KeyEvent.VK_W)) {
             if (snakeX > 0 && snakeY > 0) { // Ограничение, правый край окна
-                user.setLocation(user.x - snakeSpeed, user.y - snakeSpeed);
-                snakeX = user.x;
-                snakeY = user.y;
+                snakeX -= snakeSpeed;
+                snakeY -= snakeSpeed;
             }
         }
-
-         */
     }
 
     @Override
