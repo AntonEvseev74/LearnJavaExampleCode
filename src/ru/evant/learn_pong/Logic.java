@@ -22,6 +22,9 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
 
     private int scorePlayer1 = 0, scorePlayer2 = 0;
 
+    private String start = "Press ENTER to start";
+    private boolean isStart = false;
+
     Timer timer;
 
     Logic() {
@@ -41,10 +44,16 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
         g.fillOval(ballX - ballSize / 2, ballY, ballSize, ballSize); // шар
 
         /* очки */
-        Font font = new Font("Arial", Font.BOLD, 20);
-        g.setFont(font);
+        Font font20 = new Font("Arial", Font.BOLD, 20);
+        g.setFont(font20);
         g.drawString(String.valueOf(scorePlayer1), screenHalfW - 45, 20); // очки левого игрока
         g.drawString(String.valueOf(scorePlayer2), screenHalfW + 30, 20); // очки правого игрока
+
+        Font font40 = new Font("Arial", Font.BOLD, 40);
+        if(!isStart) {
+            g.setFont(font40);
+            g.drawString(start, screenHalfW - 200, screenH - 60);
+        }
     }
 
     @Override
@@ -83,7 +92,6 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
             scorePlayer2++;
             timer.stop();
             setToStart();
-            //bitToStart();
             setBallSpeed(ballSpeedX, ballSpeedY);
         }
 
@@ -92,7 +100,6 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
             scorePlayer1++;
             timer.stop();
             setToStart();
-         //   bitToStart();
             setBallSpeed(-ballSpeedX, -ballSpeedY);
         }
     }
@@ -105,6 +112,7 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
         bit2Y = 120;
         ballSpeedX = 3;
         ballSpeedY = 3;
+        isStart = false;
     }
 
     /* Установить скорости шара (направление движения шара при старте) */
@@ -137,6 +145,7 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER){
+            isStart = true;
             timer.start();
         }
     }
