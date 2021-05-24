@@ -14,12 +14,20 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
 
     private int bitW = 10, bitH = 100; // ширина и высота биты
     private int bit1Y = 120, bit2Y = 120; // координаты "y" доски 1 и доски 2
+    private int bitSpeed = 5; // скорость биты
 
     private int ballX = screenHalfW, ballY = screenHalfH; // координаты "x" и "y" шара
     private int ballSize = 15; // размер шара
+    private int ballSpeedX = 3, ballSpeedY = 3; // скорость шарика
+
+    private int scorePlayer1 = 0, scorePlayer2 = 0;
+
+    Timer timer;
 
     Logic() {
         addKeyListener(this);
+        timer = new Timer(10, this);
+        setFocusable(true);
     }
 
     @Override
@@ -29,13 +37,80 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.white);
         g.drawLine(screenHalfW, 0, screenHalfW, screenH); // центр поля
         g.fillRect(0, bit1Y, bitW, bitH); // 1я бита
-        g.fillRect(screenW - 15, bit2Y, bitW * -1, bitH); // 2я бита
+        g.fillRect(screenW - bitW - 15, bit2Y, bitW, bitH); // 2я бита
         g.fillOval(ballX - ballSize / 2, ballY, ballSize, ballSize); // шар
+
+        /* очки */
+        Font font = new Font("Arial", Font.BOLD, 20);
+        g.setFont(font);
+        g.drawString(String.valueOf(scorePlayer1), screenHalfW - 45, 20); // очки левого игрока
+        g.drawString(String.valueOf(scorePlayer2), screenHalfW + 30, 20); // очки правого игрока
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        repaint();
 
+        /* движение шарика */
+        ballX += ballSpeedX;
+        ballY += ballSpeedY;
+        if (ballY <= 0){
+            ballSpeedY = -ballSpeedY;
+        }
+        if (ballY > screenH - 60){
+            ballSpeedY = -ballSpeedY;
+        }
+
+        /* движение правой биты */
+        if (ballY - 50 <= bit2Y && ballX >= screenHalfW && ballSpeedX > 0){
+            bit2Y -= bitSpeed;
+        }
+        if (ballY - 50 >= bit2Y && ballX >= screenHalfW && ballSpeedX > 0){
+            bit2Y += bitSpeed;
+        }
+
+        /* пересечение шара и правой биты */
+        if (new Rectangle(ballX - ballSize / 2, ballY, ballSize, ballSize).intersects(new Rectangle(screenW - bitW - 15, bit2Y, bitW, bitH))){
+            ballSpeedX = -Math.abs(ballSpeedX+1); // -ballSpeedX;
+        }
+        /* пересечение шара и левой биты */
+        if (new Rectangle(ballX - ballSize / 2, ballY, ballSize, ballSize).intersects(new Rectangle(0, bit1Y, bitW, bitH))){
+            ballSpeedX =-(ballSpeedX-1); // -ballSpeedX;
+        }
+
+        /* пересечение шаром левой стороны окна */
+        if (ballX < -20){
+            scorePlayer2++;
+            timer.stop();
+            setToStart();
+            //bitToStart();
+            setBallSpeed(ballSpeedX, ballSpeedY);
+        }
+
+        /* пересечение шаром правой стороны окна */
+        if (ballX > screenW+20){
+            scorePlayer1++;
+            timer.stop();
+            setToStart();
+         //   bitToStart();
+            setBallSpeed(-ballSpeedX, -ballSpeedY);
+        }
+    }
+
+    /* установить все элементы в стартовое положение */
+    public void setToStart(){
+        ballX = screenHalfW;
+        ballY = screenHalfH;
+        bit1Y = 120;
+        bit2Y = 120;
+        ballSpeedX = 3;
+        ballSpeedY = 3;
+    }
+
+    /* Установить скорости шара (направление движения шара при старте) */
+    public void setBallSpeed(int ballSpeedX, int ballSpeedY){
+        this.ballSpeedX = ballSpeedX;
+        this.ballSpeedY = ballSpeedY;
     }
 
     @Override
@@ -45,11 +120,24 @@ public class Logic extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+            bit1Y += bitSpeed;
+            if (bit1Y > screenH - bitH) {
+                bit1Y = screenH - bitH;
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+            bit1Y -= bitSpeed;
+            if (bit1Y <= -30) {
+                bit1Y = -30;
+            }
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-
+        if (e.getKeyCode() == KeyEvent.VK_ENTER){
+            timer.start();
+        }
     }
 }
