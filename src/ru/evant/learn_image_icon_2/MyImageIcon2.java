@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 // !!! довести до ума. Чтобы у змеи была возможность есть яблоки до тех пор пока. размер змеи не будет равен размеру окна
-// В текущей реслизации змея ест 5 яблок и становится сново маленькой
+// В текущей реслизации змея ест 5 яблок и становится сново маленькой, и возвращается в центр окна
 
 public class MyImageIcon2 extends JComponent implements KeyListener, ActionListener {
 
